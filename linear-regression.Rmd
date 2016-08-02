@@ -62,5 +62,38 @@ fwd.model = step(min.model, direction='forward', scope=biggest)
 fwd.model
 ```
 
+Now we can do predictions using the fwd.model : 
+```{r}
+psub.train$predPINCP <- predict(fwd.model, newdata = psub.train)
+psub.test$predPINCP <- predict(fwd.model, newdata = psub.test)
+```
 
+We can plot the result of prediction using our model : 
+```{r}
+p <- ggplot(data = psub.train) +
+  geom_point(mapping = aes(x = predPINCPfwd, y = PINCP),alpha = 0.5, color = "black") +
+  geom_line(mapping = aes(x = PINCP, y = PINCP), color = "blue", linetype = 2) 
+p.labs <- p + labs(title = "Prediction for train population", x = "train predPINCP", y = "train PINCP")
+p.labs
+
+p <- ggplot(data = psub.train) +
+  geom_point(mapping = aes(x = predPINCP, y = PINCP),alpha = 0.5, color = "black") +
+  geom_line(mapping = aes(x = PINCP, y = PINCP), color = "blue", linetype = 2) +
+  scale_x_log10(breaks=c(100,1000,10000,100000))
+p.labs <- p + labs(title = "Prediction for train population", x = "train predPINCP", y = "test PINCP")
+p.labs
+
+p <- ggplot(data = psub.test) +
+  geom_point(mapping = aes(x = predPINCPfwd, y = PINCP),alpha = 0.5, color = "black") +
+  geom_line(mapping = aes(x = PINCP, y = PINCP), color = "blue", linetype = 2)
+p.labs <- p + labs(title = "Prediction for test population", x = "test predPINCP", y = "test PINCP")
+p.labs
+
+p <- ggplot(data = psub.test) +
+  geom_point(mapping = aes(x = predPINCP, y = PINCP),alpha = 0.5, color = "black") +
+  geom_line(mapping = aes(x = PINCP, y = PINCP), color = "blue", linetype = 2) +
+  scale_x_log10(breaks=c(100,1000,10000,100000))
+p.labs <- p + labs(title = "Prediction for test population", x = "test predPINCP", y = "test PINCP")
+p.labs
+```
 
