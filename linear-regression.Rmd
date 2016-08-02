@@ -1,0 +1,34 @@
+---
+title: "Linear regression"
+output:
+  html_document: default
+---
+
+```{r, echo=FALSE}
+library(pacman,scales)
+p_load(dplyr, ggplot2)
+```
+#### Create linear regression model
+
+###Load data
+```{r}
+load('psub.RData')
+```
+
+### Incomes density
+This will help us have a better visualization of our data set.
+```{r}
+ggplot(psub) + 
+  geom_density(aes(x = PINCP)) +
+  scale_x_continuous(labels=scales::dollar)
+```
+
+### Creation of 2 population
+A train population (70% of the dataset) and a test population (30% of the dataset).
+The goal of the train population is to create the model, we will create the model using the train population data. We will test the model on the test population, to be sure that the model works.
+
+We want to be sure that psub.train and psub.test doesn't contain same data at all
+```{r}
+psub.train <- psub%>%sample_frac(0.70, replace = FALSE)
+psub.test <- setdiff(psub, psub.train)
+```
