@@ -39,4 +39,28 @@ psub.train <- psub%>%sample_frac(0.70, replace = FALSE)
 psub.test <- setdiff(psub, psub.train)
 ```
 
+### Next, we determine the model that is best suited for our dataset
+The variable we want to predict is PINCP, to define the best suited model for our data set we need to find the best combination of its attributes for predicting.
+Therefore we chose to apply the forward selection method to find the most significant ones. For that we need a minimum and a maximum sized model.
+
+We start with only AGEP for our minimum model as we saw it was a significant attribute during our very early tests.
+```{r}
+min.model = lm(PINCP ~ AGEP, data=psub.train)
+```
+
+The most complex model we can have is composed of every combination of attributes
+```{r}
+biggest <- formula(lm(PINCP~SEX*AGEP*COW*SCHL,psub.train))
+```
+
+We create the model using the forward method, beginning by min.model
+```{r}
+fwd.model = step(min.model, direction='forward', scope=biggest)
+```
+
+```{r}
+fwd.model
+```
+
+
 
