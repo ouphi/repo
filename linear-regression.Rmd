@@ -9,6 +9,12 @@ library(pacman,scales)
 p_load(dplyr, ggplot2)
 ```
 #### Create linear regression model
+We want to predict personal income (PINCP) using these data :
+
+* age `AGEP`
+* sex `SEX`
+* class of worker `COW`
+* level of education `SCHL`
 
 ###Load data
 ```{r}
@@ -32,3 +38,5 @@ We want to be sure that psub.train and psub.test doesn't contain same data at al
 psub.train <- psub%>%sample_frac(0.70, replace = FALSE)
 psub.test <- setdiff(psub, psub.train)
 ```
+
+
